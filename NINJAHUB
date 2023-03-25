@@ -166,7 +166,7 @@ local tploop = false
 Section1:NewToggle("Auto Teleport", "auto auto teleports you to a certain position", function(state)
     if state then
         tploop = true
-        while true do
+        while tploop do
     if Player.Character then
         for i, v in pairs(CFrames) do
             if i == tostring(math.random(1, 5)) then
