@@ -1,31 +1,106 @@
-local Library = loadstring(Game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
-local AntiAfk = Library:NewWindow("NINJA HUB EZ")
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("PRO HUB FRFR", "Midnight")
+local Main = Window:NewTab("Main")
+local Misc = Window:NewTab("Misc")
 
-local AntiAfkSection = AntiAfk:NewSection("Script")
+local Section1 = Main:NewSection("Main")
+local Section2 = Misc:NewSection("Misc")
 
-AntiAfkSection:CreateToggle("Auto Chat", function(value)
-    if value then
-    _G.loop = true
-	while _G.loop == true do wait(2)
-	local settings = {
-   AutoChat = true,
+
+Section2:NewKeybind("Hide GUI", "hids the gui", Enum.KeyCode.RightControl, function()
+	Library:ToggleUI()
+end)
+
+local Players = game.Players
+local RunService = game.RunService
+local ReplicatedStorage = game.ReplicatedStorage
+local Player = Players.LocalPlayer
+
+Section1:NewButton("Fast Respawn", "respawns you faster", function()
+
+Player.PlayerGui.UI.HUD.Visible = true
+
+local args = {
+    [1] = "Core",
+    [2] = "LoadCharacter",
+    [3] = {}
 }
 
-local chatrem = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
-task.wait(settings)
-    chatrem:FireServer('AFK', "All")
-	end
-	else
-	_G.loop = false
-	   while _G.loop == true do wait()
-		 local settings = {
-   AutoChat = false,
+game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
+
+wait(0.5)
+
+local args = {
+    [1] = "Main",
+    [2] = "LoadCharacter"
 }
 
-local chatrem = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
-task.wait(settings)
-    chatrem:FireServer('AFK', "All")
+game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
 
-	   end
+Workspace.CurrentCamera.CameraSubject = Player.Character
+end)
+
+Section1:NewToggle("Anchor/UnAnchor", "anchor/unanchors ur char", function(state)
+    if state then
+game.Workspace.Characters.Players.NINJAMASTER13262.HumanoidRootPart.Anchored = true
+game.Workspace.Characters.Players.NINJAMASTER13262.RightArm.Anchored = true
+game.Workspace.Characters.Players.NINJAMASTER13262.LeftArm.Anchored = true
+game.Workspace.Characters.Players.NINJAMASTER13262.RightLeg.Anchored = true
+game.Workspace.Characters.Players.NINJAMASTER13262.LeftLeg.Anchored = true
+game.Workspace.Characters.Players.NINJAMASTER13262.Head.Anchored = true
+print("anchored")
+    else
+game.Workspace.Characters.Players.NINJAMASTER13262.HumanoidRootPart.Anchored = false
+game.Workspace.Characters.Players.NINJAMASTER13262.RightArm.Anchored = false
+game.Workspace.Characters.Players.NINJAMASTER13262.LeftArm.Anchored = false
+game.Workspace.Characters.Players.NINJAMASTER13262.RightLeg.Anchored = false
+game.Workspace.Characters.Players.NINJAMASTER13262.LeftLeg.Anchored = false
+game.Workspace.Characters.Players.NINJAMASTER13262.Head.Anchored = false
+print("unanchored")
+    end
+end)
+
+Section1:NewButton("Auto Reset", 'Auto reset when stamina is 100', function()
+
+while true do
+	wait(1.5)
+	if game.Players.NINJAMASTER13262.PlayerGui.UI.HUD.Bars.Stamina.AbsoluteSize.X < 30  then
+		wait(1)
+		game.Workspace.Characters.Players.NINJAMASTER13262.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+		print("Executed!")
+		wait(3)
+if game.Workspace.Characters.Players.NINJAMASTER13262.Humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
+	wait(3)
+	local args = {
+    [1] = "Core",
+    [2] = "LoadCharacter",
+    [3] = {}
+}
+
+game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
+wait(0.1)
+
+local args = {
+    [1] = "Main",
+    [2] = "LoadCharacter"
+}
+
+game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
+print("Loaded Character!")
+
+Workspace.CurrentCamera.CameraSubject = Player.Character
+
+print("Placed Camera!")
+end
 	end
+	wait(5)
+end
+end)
+
+Section1:NewButton("Destroy MainMenu", "Removes MainMenu", function()
+Player.PlayerGui.UI.MainMenu:Destroy()
+end)
+
+Section1:NewButton("Destroy DeathScreen", "removes DeathScreen", function()
+game:GetService("ReplicatedStorage").DeathScreen:Destroy()
 end)
