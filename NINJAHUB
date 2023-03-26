@@ -16,6 +16,7 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Player = Players.LocalPlayer
 local spawn = task.spawn
+local ts = game:GetService("TeleportService")
 
 Section1:NewButton("Fast Respawn", "respawns you faster", function()
 
@@ -44,7 +45,7 @@ end)
 local isAnchored = false
 local isLoopRunning = false
 
-Section1:NewToggle("Anchor/UnAnchor", "anchor/unanchors ur char", function(state)
+Section2:NewToggle("Anchor/UnAnchor", "anchor/unanchors ur char", function(state)
     if state then
         isAnchored = true
         if not isLoopRunning then
@@ -188,4 +189,55 @@ end)
 Section1:NewButton("Destroy DeathScreen", "removes DeathScreen", function()
 game:GetService("ReplicatedStorage").DeathScreen:Destroy()
 print("destroyed!")
+end)
+
+local isNoclip = false
+local canJump = true
+
+-- new function to reset the player's position
+local function resetPlayerPosition()
+    local humanoidRootPart = Player.Character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = CFrame.new(-987, 502, -1102) -- change this to the desired respawn location
+    end
+end
+
+Section2:NewToggle("Noclip", "lets you go thru walls", function(state)
+    if state then
+        isNoclip = true
+        while isNoclip do
+            for _, v in pairs(Player.Character:GetDescendants()) do
+                if v:IsA("BasePart") then
+                    v.CanCollide = false
+                end
+            end
+
+            if canJump and UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                canJump = false
+                local humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
+                if humanoid then
+                    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                    humanoid.Jump = true
+                end
+            end
+
+            wait()
+        end
+    else
+        isNoclip = false
+        for _, v in pairs(Player.Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = true
+            end
+        end
+    end
+end)
+
+-- listen for the player dying and reset their position when they respawn
+Player.CharacterAdded:Connect(function(character)
+    resetPlayerPosition()
+end)
+
+Section2:NewButton("Rejoin", "rejoins the server", function()
+ts:Teleport(game.PlaceId, Player)
 end)
