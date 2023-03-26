@@ -15,6 +15,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Player = Players.LocalPlayer
+local spawn = task.spawn
 
 Section1:NewButton("Fast Respawn", "respawns you faster", function()
 
@@ -41,44 +42,38 @@ Workspace.CurrentCamera.CameraSubject = Player.Character
 end)
 
 local isAnchored = false
-
-local function applyAnchoringState()
-    Player.Character:WaitForChild("HumanoidRootPart").Anchored = isAnchored
-    Player.Character:WaitForChild("RightArm").Anchored = isAnchored
-    Player.Character:WaitForChild("LeftArm").Anchored = isAnchored
-    Player.Character:WaitForChild("RightLeg").Anchored = isAnchored
-    Player.Character:WaitForChild("LeftLag").Anchored = isAnchored
-    Player.Character:WaitForChild("Head").Anchored = isAnchored
-end
-
-local function onCharacterAdded(char)
-    char:WaitForChild("Humanoid").Died:Connect(function()
-        isAnchored = true
-        applyAnchoringState()
-    end)
-end
-
-Player.CharacterAdded:Connect(onCharacterAdded)
-if Player.Character then
-    onCharacterAdded(Player.Character)
-end
+local isLoopRunning = false
 
 Section1:NewToggle("Anchor/UnAnchor", "anchor/unanchors ur char", function(state)
     if state then
         isAnchored = true
-        print("Anchoring...")
-        while isAnchored do -- loop while the toggle is on
-            applyAnchoringState()
-            wait() -- wait for the next frame
+        if not isLoopRunning then
+            isLoopRunning = true
+            spawn(function()
+                while isLoopRunning do
+                    wait()
+                    pcall(function()
+                        game.Workspace.Characters.Players.NINJAMASTER13262.HumanoidRootPart.Anchored = true
+                        game.Workspace.Characters.Players.NINJAMASTER13262.RightArm.Anchored = true
+                        game.Workspace.Characters.Players.NINJAMASTER13262.LeftArm.Anchored = true
+                        game.Workspace.Characters.Players.NINJAMASTER13262.RightLeg.Anchored = true
+                        game.Workspace.Characters.Players.NINJAMASTER13262.LeftLeg.Anchored = true
+                        game.Workspace.Characters.Players.NINJAMASTER13262.Head.Anchored = true
+                    end)
+                end
+            end)
         end
-        print("Anchoring stopped.")
     else
         isAnchored = false
-        print("Unanchoring...")
-        applyAnchoringState()
-        print("Unanchoring stopped.")
+        isLoopRunning = false
+        game.Workspace.Characters.Players.NINJAMASTER13262.HumanoidRootPart.Anchored = false
+        game.Workspace.Characters.Players.NINJAMASTER13262.RightArm.Anchored = false
+        game.Workspace.Characters.Players.NINJAMASTER13262.LeftArm.Anchored = false
+        game.Workspace.Characters.Players.NINJAMASTER13262.RightLeg.Anchored = false
+        game.Workspace.Characters.Players.NINJAMASTER13262.LeftLeg.Anchored = false
+        game.Workspace.Characters.Players.NINJAMASTER13262.Head.Anchored = false
     end
-end)
+end)	
 
 local autoResetEnabled = false
 
@@ -87,7 +82,7 @@ Section1:NewToggle("Auto Reset", "Auto reset when stamina is less than 30", func
 	if state then
         while autoResetEnabled do
             wait(0.5)
-            if Players.Player.PlayerGui.UI.HUD.Bars.Stamina.AbsoluteSize.X < 30  then
+            if Player.PlayerGui.UI.HUD.Bars.Stamina.AbsoluteSize.X < 30  then
                 wait(0.5)
                 pcall(function()
                     Player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
@@ -163,29 +158,34 @@ local CFrames = {
 }
 
 local tploop = false
-Section1:NewToggle("Auto Teleport", "auto auto teleports you to a certain position", function(state)
+Section1:NewToggle("Auto Teleport", "Teleports you to a certain CFrame", function(state)
     if state then
-        tploop = true
-        while tploop do
-    if Player.Character then
-        for i, v in pairs(CFrames) do
-            if i == tostring(math.random(1, 5)) then
-                Player.Character:WaitForChild("HumanoidRootPart").CFrame = v
+		tploop = true
+		spawn(function()
+    while tploop do
+        wait()
+        pcall(function()
+            for i, v in pairs(CFrames) do
+                if i == tostring(math.random(1, 5)) then
+                    Player.Character:WaitForChild("HumanoidRootPart").CFrame = v
+                end 
+                wait(0.1)
             end 
-            wait(0.5)
-        end 
+        end)
     end
-end
+end)  
     else
-        tploop = false
-        print("Disabled!")
+	tploop = false
+	print("disabled!")      
     end
 end)
 
 Section1:NewButton("Destroy MainMenu", "Removes MainMenu", function()
 Player.PlayerGui.UI.MainMenu:Destroy()
+print("destroyed!")
 end)
 
 Section1:NewButton("Destroy DeathScreen", "removes DeathScreen", function()
 game:GetService("ReplicatedStorage").DeathScreen:Destroy()
+print("destroyed!")
 end)
