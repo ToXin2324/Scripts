@@ -238,7 +238,7 @@ Player.CharacterAdded:Connect(function(character)
     resetPlayerPosition()
 end)
 
-ocal playerNames = {"devroub", "superstephon", "Literomancer", "Zeklar", "Aexural"}
+local playerNames = {"devroub", "superstephon", "Literomancer", "Zeklar", "Aexural"}
 
 Section2:NewButton("Auto Kick", "kicks you when a mod joins your server", function()
 while true do
