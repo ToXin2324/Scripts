@@ -245,7 +245,7 @@ while true do
     for _, playerName in ipairs(playerNames) do
         local player = game.Players:FindFirstChild(playerName)
         if player then
-            player:Kick("A mod joined the game")
+            game.Players.LocalPlayer:Kick("MOD JOINED!")
         end
     end
     wait(1)
