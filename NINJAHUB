@@ -135,16 +135,21 @@ local Numbers = {
 local keypressloop = false
 Section1:NewToggle("Auto Press Keys", "auto press skills", function(state)
     if state then
-        keypressloop = true
-        while keypressloop do
-            for i, v in pairs(Numbers) do
+		keypressloop = true
+		spawn(function()
+    while keypressloop do
+        wait()
+        pcall(function()
+		for i, v in pairs(Numbers) do
                 VirtualInputManager:SendKeyEvent(true, v, false, game)
                 wait(0.5)
                 VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
                 VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1) 
                 wait(0.5)
-            end
-        end
+	        end    
+        end)
+    end
+end)
     else
 	keypressloop = false
     end
