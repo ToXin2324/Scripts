@@ -238,6 +238,20 @@ Player.CharacterAdded:Connect(function(character)
     resetPlayerPosition()
 end)
 
+ocal playerNames = {"devroub", "superstephon", "Literomancer", "Zeklar", "Aexural"}
+
+Section2:NewButton("Auto Kick", "kicks you when a mod joins your server", function()
+while true do
+    for _, playerName in ipairs(playerNames) do
+        local player = game.Players:FindFirstChild(playerName)
+        if player then
+            player:Kick("A mod joined the game")
+        end
+    end
+    wait(1)
+end
+end)
+
 Section2:NewButton("Rejoin", "rejoins the server", function()
 ts:Teleport(game.PlaceId, Player)
 end)
