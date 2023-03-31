@@ -160,7 +160,9 @@ local CFrames = {
     ["2"] = CFrame.new(-289, 557, -1343),
     ["3"] = CFrame.new(321, 583, -1442),
     ["4"] = CFrame.new(486, 549, -1316),
-    ["5"] = CFrame.new(1195, 562, -826)
+    ["5"] = CFrame.new(1195, 562, -826),
+    ["6"] = CFrame.new(-1094, 697, -1233),
+    ["7"] = CFrame.new (1398, 712, 1076)
 }
 
 local tploop = false
@@ -172,7 +174,7 @@ Section1:NewToggle("Auto Teleport", "Teleports you to a certain CFrame", functio
         wait()
         pcall(function()
             for i, v in pairs(CFrames) do
-                if i == tostring(math.random(1, 5)) then
+                if i == tostring(math.random(1, 7)) then
                     Player.Character:WaitForChild("HumanoidRootPart").CFrame = v
                 end 
                 wait(0.1)
