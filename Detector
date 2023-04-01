@@ -1,15 +1,9 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("PRO", "DarkTheme")
-
-local Tab = Window:NewTab("Detector")
-
-local Section = Tab:NewSection("Main")
-
+local Players = game:GetService("Players")
 local function executeAfterGui()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end
 
-Section:NewButton("MarcoDetector", "ButtonInfo", function()
+local marco = game.Workspace.Characters.NPCs.Marco
 
 if pcall(function() return game.Workspace.Characters.NPCs.Marco end) then
     local gui = Instance.new("ScreenGui")
@@ -29,6 +23,9 @@ if pcall(function() return game.Workspace.Characters.NPCs.Marco end) then
     wait(2)
 
     gui:Destroy()
+    
+    wait(1)
+    Players.LocalPlayer.Character.HumanoidRootPart.CFrame = marco.HumanoidRootPart.CFrame
     executeAfterGui()
 else
     local gui = Instance.new("ScreenGui")
@@ -50,4 +47,3 @@ else
     gui:Destroy()
     executeAfterGui()
 end
-end)
