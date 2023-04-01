@@ -1,264 +1,49 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("PRO HUB FRFR", "Midnight")
-local Main = Window:NewTab("Main")
-local Misc = Window:NewTab("Misc")
-
-local Section1 = Main:NewSection("Main")
-local Section2 = Misc:NewSection("Misc")
-
-
-Section2:NewKeybind("Hide GUI", "hids the gui", Enum.KeyCode.RightControl, function()
-	Library:ToggleUI()
-end)
-
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Player = Players.LocalPlayer
-local spawn = task.spawn
-local ts = game:GetService("TeleportService")
-
-Section1:NewButton("Fast Respawn", "respawns you faster", function()
-
-Player.PlayerGui.UI.HUD.Visible = true
-
-local args = {
-    [1] = "Core",
-    [2] = "LoadCharacter",
-    [3] = {}
-}
-
-game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
-
-wait(0.5)
-
-local args = {
-    [1] = "Main",
-    [2] = "LoadCharacter"
-}
-
-game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
-
-Workspace.CurrentCamera.CameraSubject = Player.Character
-end)
-
-local isAnchored = false
-local isLoopRunning = false
-
-Section2:NewToggle("Anchor/UnAnchor", "anchor/unanchors ur char", function(state)
-    if state then
-        isAnchored = true
-        if not isLoopRunning then
-            isLoopRunning = true
-            spawn(function()
-                while isLoopRunning do
-                    wait()
-                    pcall(function()
-                        game.Workspace.Characters.Players.NINJAMASTER13262.HumanoidRootPart.Anchored = true
-                        game.Workspace.Characters.Players.NINJAMASTER13262.RightArm.Anchored = true
-                        game.Workspace.Characters.Players.NINJAMASTER13262.LeftArm.Anchored = true
-                        game.Workspace.Characters.Players.NINJAMASTER13262.RightLeg.Anchored = true
-                        game.Workspace.Characters.Players.NINJAMASTER13262.LeftLeg.Anchored = true
-                        game.Workspace.Characters.Players.NINJAMASTER13262.Head.Anchored = true
-                    end)
-                end
-            end)
-        end
-    else
-        isAnchored = false
-        isLoopRunning = false
-        game.Workspace.Characters.Players.NINJAMASTER13262.HumanoidRootPart.Anchored = false
-        game.Workspace.Characters.Players.NINJAMASTER13262.RightArm.Anchored = false
-        game.Workspace.Characters.Players.NINJAMASTER13262.LeftArm.Anchored = false
-        game.Workspace.Characters.Players.NINJAMASTER13262.RightLeg.Anchored = false
-        game.Workspace.Characters.Players.NINJAMASTER13262.LeftLeg.Anchored = false
-        game.Workspace.Characters.Players.NINJAMASTER13262.Head.Anchored = false
-    end
-end)	
-
-local autoResetEnabled = false
-
-Section1:NewToggle("Auto Reset", "Auto reset when stamina is less than 30", function(state)
-    autoResetEnabled = true
-	if state then
-        while autoResetEnabled do
-            wait(0.5)
-            if Player.PlayerGui.UI.HUD.Bars.Stamina.AbsoluteSize.X < 30  then
-                wait(0.5)
-                pcall(function()
-                    Player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-                end)
-                print("Executed!")
-            end
-
-            wait(10)
-
-            Player.PlayerGui.UI.HUD.Visible = true
-
-            local args = {
-                [1] = "Core",
-                [2] = "LoadCharacter",
-                [3] = {}
-            }
-
-            game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
-
-            wait(0.5)
-
-            local args = {
-                [1] = "Main",
-                [2] = "LoadCharacter"
-            }
-
-            game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
-
-            wait(3)
-
-            pcall(function()
-                Workspace.CurrentCamera.CameraSubject = Player.Character
-            end)
-        end
-    else
-        autoResetEnabled = false
-        print("Disabled!")
-    end
-end)
-
-local VirtualInputManager = game:GetService("VirtualInputManager")
-local Numbers = {
-    49,
-    50,
-    51,
-    52
-}
-
-local keypressloop = false
-Section1:NewToggle("Auto Press Keys", "auto press skills", function(state)
-    if state then
-		keypressloop = true
-		spawn(function()
-    while keypressloop do
-        wait()
-        pcall(function()
-		for i, v in pairs(Numbers) do
-                VirtualInputManager:SendKeyEvent(true, v, false, game)
-                wait(0.5)
-                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 1)
-                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 1) 
-                wait(0.5)
-	        end    
-        end)
-    end
-end)
-    else
-	keypressloop = false
-    end
-end)
-
-local CFrames = {
-    ["1"] = CFrame.new(-987, 502, -1102),
-    ["2"] = CFrame.new(-289, 557, -1343),
-    ["3"] = CFrame.new(321, 583, -1442),
-    ["4"] = CFrame.new(486, 549, -1316),
-    ["5"] = CFrame.new(1195, 562, -826),
-    ["6"] = CFrame.new(-1094, 697, -1233),
-    ["7"] = CFrame.new (1398, 712, 1076)
-}
-
-local tploop = false
-Section1:NewToggle("Auto Teleport", "Teleports you to a certain CFrame", function(state)
-    if state then
-		tploop = true
-		spawn(function()
-    while tploop do
-        wait()
-        pcall(function()
-            for i, v in pairs(CFrames) do
-                if i == tostring(math.random(1, 7)) then
-                    Player.Character:WaitForChild("HumanoidRootPart").CFrame = v
-                end 
-                wait(0.1)
-            end 
-        end)
-    end
-end)  
-    else
-	tploop = false
-	print("disabled!")      
-    end
-end)
-
-Section1:NewButton("Destroy MainMenu", "Removes MainMenu", function()
-Player.PlayerGui.UI.MainMenu:Destroy()
-print("destroyed!")
-end)
-
-Section1:NewButton("Destroy DeathScreen", "removes DeathScreen", function()
-game:GetService("ReplicatedStorage").DeathScreen:Destroy()
-print("destroyed!")
-end)
-
-local isNoclip = false
-local canJump = true
-
--- new function to reset the player's position
-local function resetPlayerPosition()
-    local humanoidRootPart = Player.Character:FindFirstChild("HumanoidRootPart")
-    if humanoidRootPart then
-        humanoidRootPart.CFrame = CFrame.new(-987, 502, -1102) -- change this to the desired respawn location
-    end
+local function executeAfterGui()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end
 
-Section2:NewToggle("Noclip", "lets you go thru walls", function(state)
-    if state then
-        isNoclip = true
-        while isNoclip do
-            for _, v in pairs(Player.Character:GetDescendants()) do
-                if v:IsA("BasePart") then
-                    v.CanCollide = false
-                end
-            end
+local marco = game.Workspace.Characters.NPCs.Marco
 
-            if canJump and UserInputService:IsKeyDown(Enum.KeyCode.Space) then
-                canJump = false
-                local humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
-                if humanoid then
-                    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                    humanoid.Jump = true
-                end
-            end
+if pcall(function() return game.Workspace.Characters.NPCs.Marco end) then
+    local gui = Instance.new("ScreenGui")
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0.5, 0, 0.2, 0)
+    frame.Position = UDim2.new(0.25, 0, 0.4, 0)
+    frame.BackgroundColor3 = Color3.new(1, 1, 1)
+    frame.BorderSizePixel = 0
+    local textLabel = Instance.new("TextLabel", frame)
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.Text = "His here"
+    textLabel.FontSize = Enum.FontSize.Size24
+    textLabel.TextColor3 = Color3.new(0, 0, 0)
+    textLabel.BackgroundTransparency = 1
+    gui.Parent = game:GetService("StarterGui")
 
-            wait()
-        end
-    else
-        isNoclip = false
-        for _, v in pairs(Player.Character:GetDescendants()) do
-            if v:IsA("BasePart") then
-                v.CanCollide = true
-            end
-        end
-    end
-end)
+    wait(2)
 
--- listen for the player dying and reset their position when they respawn
-Player.CharacterAdded:Connect(function(character)
-    resetPlayerPosition()
-end)
-
-local playerNames = {"devroub", "superstephon", "Literomancer", "Zeklar", "Aexural"}
-
-Section2:NewButton("Auto Kick", "kicks you when a mod joins your server", function()
-while true do
-    for _, playerName in ipairs(playerNames) do
-        local player = game.Players:FindFirstChild(playerName)
-        if player then
-            game.Players.LocalPlayer:Kick("MOD JOINED!")
-        end
-    end
+    gui:Destroy()
+    
     wait(1)
-end
-end)
+    Players.LocalPlayer.Character.HumanoidRootPart.CFrame = marco.HumanoidRootPart.CFrame
+    executeAfterGui()
+else
+    local gui = Instance.new("ScreenGui")
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0.5, 0, 0.2, 0)
+    frame.Position = UDim2.new(0.25, 0, 0.4, 0)
+    frame.BackgroundColor3 = Color3.new(1, 1, 1)
+    frame.BorderSizePixel = 0
+    local textLabel = Instance.new("TextLabel", frame)
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.Text = "His not here"
+    textLabel.FontSize = Enum.FontSize.Size24
+    textLabel.TextColor3 = Color3.new(0, 0, 0)
+    textLabel.BackgroundTransparency = 1
+    gui.Parent = game:GetService("StarterGui")
 
-Section2:NewButton("Rejoin", "rejoins the server", function()
-ts:Teleport(game.PlaceId, Player)
-end)
+    wait(2)
+
+    gui:Destroy()
+    executeAfterGui()
+end
