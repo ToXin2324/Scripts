@@ -1,12 +1,12 @@
-local Players = game:GetService("Players")
-local function executeAfterGui()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end
+Players = game:GetService("Players")
+Player = Players.LocalPlayer
 
-local marco = game.Workspace.Characters.NPCs.Marco
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 
-if pcall(function() return game.Workspace.Characters.NPCs.Marco end) then
-    local gui = Instance.new("ScreenGui")
+wait(1)
+
+if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
+local gui = Instance.new("ScreenGui")
     local frame = Instance.new("Frame", gui)
     frame.Size = UDim2.new(0.5, 0, 0.2, 0)
     frame.Position = UDim2.new(0.25, 0, 0.4, 0)
@@ -14,36 +14,45 @@ if pcall(function() return game.Workspace.Characters.NPCs.Marco end) then
     frame.BorderSizePixel = 0
     local textLabel = Instance.new("TextLabel", frame)
     textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.Text = "His here"
     textLabel.FontSize = Enum.FontSize.Size24
     textLabel.TextColor3 = Color3.new(0, 0, 0)
     textLabel.BackgroundTransparency = 1
-    gui.Parent = game:GetService("StarterGui")
-
-    wait(2)
-
-    gui:Destroy()
+    gui.Parent = Players.PlayerGui
+    
+    wait(3)
+    
+    Player.Character.HumanoidRootPart.CFrame = game.Workspace.Characters.NPCs.Marco.HumanoidRootPart.CFrame
+    Player.PlayerGui.UI.MainMenu:Destroy()
+    game:GetService("ReplicatedStorage").DeathScreen:Destroy()
     
     wait(1)
-    Players.LocalPlayer.Character.HumanoidRootPart.CFrame = marco.HumanoidRootPart.CFrame
-    executeAfterGui()
-else
-    local gui = Instance.new("ScreenGui")
-    local frame = Instance.new("Frame", gui)
-    frame.Size = UDim2.new(0.5, 0, 0.2, 0)
-    frame.Position = UDim2.new(0.25, 0, 0.4, 0)
-    frame.BackgroundColor3 = Color3.new(1, 1, 1)
-    frame.BorderSizePixel = 0
-    local textLabel = Instance.new("TextLabel", frame)
-    textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.Text = "His not here"
-    textLabel.FontSize = Enum.FontSize.Size24
-    textLabel.TextColor3 = Color3.new(0, 0, 0)
-    textLabel.BackgroundTransparency = 1
-    gui.Parent = game:GetService("StarterGui")
+    
+    Player.PlayerGui.UI.HUD.Visible = true
 
-    wait(2)
+local args = {
+    [1] = "Core",
+    [2] = "LoadCharacter",
+    [3] = {}
+}
+
+game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
+
+wait(0.5)
+
+local args = {
+    [1] = "Main",
+    [2] = "LoadCharacter"
+}
+
+game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
+
+Workspace.CurrentCamera.CameraSubject = Player.Character
 
     gui:Destroy()
-    executeAfterGui()
+    print("executed!")
+    
+    else 
+    
+    print("Marco is not here!")
+    
 end
