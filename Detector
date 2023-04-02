@@ -1,33 +1,25 @@
-Players = game:GetService("Players")
-Player = Players.LocalPlayer
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("PRO HUB FRFR", "Midnight")
+local Main = Window:NewTab("Main")
+local Misc = Window:NewTab("Misc")
 
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+local Section1 = Main:NewSection("Main")
 
-wait(1)
 
-if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
-local gui = Instance.new("ScreenGui")
-    local frame = Instance.new("Frame", gui)
-    frame.Size = UDim2.new(0.5, 0, 0.2, 0)
-    frame.Position = UDim2.new(0.25, 0, 0.4, 0)
-    frame.BackgroundColor3 = Color3.new(1, 1, 1)
-    frame.BorderSizePixel = 0
-    local textLabel = Instance.new("TextLabel", frame)
-    textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.FontSize = Enum.FontSize.Size24
-    textLabel.TextColor3 = Color3.new(0, 0, 0)
-    textLabel.BackgroundTransparency = 1
-    gui.Parent = Players.PlayerGui
-    
-    wait(3)
-    
-    Player.Character.HumanoidRootPart.CFrame = game.Workspace.Characters.NPCs.Marco.HumanoidRootPart.CFrame
-    Player.PlayerGui.UI.MainMenu:Destroy()
-    game:GetService("ReplicatedStorage").DeathScreen:Destroy()
-    
-    wait(1)
-    
-    Player.PlayerGui.UI.HUD.Visible = true
+Section1:NewKeybind("Hide GUI", "hids the gui", Enum.KeyCode.RightControl, function()
+	Library:ToggleUI()
+end)
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Player = Players.LocalPlayer
+local spawn = task.spawn
+local ts = game:GetService("TeleportService")
+
+Section1:NewButton("Fast Respawn", "respawns you faster", function()
+
+Player.PlayerGui.UI.HUD.Visible = true
 
 local args = {
     [1] = "Core",
@@ -47,12 +39,81 @@ local args = {
 game:GetService("ReplicatedStorage").ReplicatorNoYield:FireServer(unpack(args))
 
 Workspace.CurrentCamera.CameraSubject = Player.Character
+end)
+
+Section1:NewButton("Marco Detector", "detects marco", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+
+wait(1)
+
+if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
+    local gui = Instance.new("ScreenGui")
+    gui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0.5, 0, 0.2, 0)
+    frame.Position = UDim2.new(0.25, 0, 0.4, 0)
+    frame.BackgroundColor3 = Color3.new(1, 1, 1)
+    frame.BorderSizePixel = 0
+    local textLabel = Instance.new("TextLabel", frame)
+    textLabel.Text = "His Here"
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.FontSize = Enum.FontSize.Size24
+    textLabel.TextColor3 = Color3.new(0, 0, 0)
+    textLabel.BackgroundTransparency = 1
+    gui.Parent = Player.PlayerGui
+    
+    wait(5)
 
     gui:Destroy()
-    print("executed!")
+    print("marco is here!")
     
     else 
     
-    print("Marco is not here!")
+    local gui = Instance.new("ScreenGui")
+    gui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0.5, 0, 0.2, 0)
+    frame.Position = UDim2.new(0.25, 0, 0.4, 0)
+    frame.BackgroundColor3 = Color3.new(1, 1, 1)
+    frame.BorderSizePixel = 0
+    local textLabel = Instance.new("TextLabel", frame)
+    textLabel.Text = "His not Here"
+    textLabel.Size = UDim2.new(1, 0, 1, 0)
+    textLabel.FontSize = Enum.FontSize.Size24
+    textLabel.TextColor3 = Color3.new(0, 0, 0)
+    textLabel.BackgroundTransparency = 1
+    gui.Parent = Player.PlayerGui
+    
+    wait(5)
+    gui:Destroy()
+    print("marco is not here!")
     
 end
+end)
+
+Section1:NewButton("Teleport to Marco", "teleports you to marco", function()
+Player.Character.HumanoidRootPart.CFrame = game.Workspace.Characters.NPCs.Marco.HumanoidRootPart.CFrame
+print("tped!")
+end)
+
+
+local CFrames = {
+    ["1"] = CFrame.new(-987, 502, -1102)
+}
+
+Section1:NewButton("Teleport to safe place", "teleports you to a safe place", function()
+    local cframe = CFrames["1"]
+    Player.Character.HumanoidRootPart.CFrame = cframe
+    print("your safe now")
+end)
+
+
+Section1:NewButton("Destroy MainMenu", "Removes MainMenu", function()
+Player.PlayerGui.UI.MainMenu:Destroy()
+print("destroyed!")
+end)
+
+Section1:NewButton("Destroy DeathScreen", "removes DeathScreen", function()
+game:GetService("ReplicatedStorage").DeathScreen:Destroy()
+print("destroyed!")
+end)
